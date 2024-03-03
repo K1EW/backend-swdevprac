@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken");
 
 // Interview Schema
 const interviewSchema = new mongoose.Schema({
@@ -26,11 +25,5 @@ const interviewSchema = new mongoose.Schema({
         }
     },
 });
-
-// Validate that a user can book up to 3 interview sessions
-interviewSchema.path('user').validate(async function(value) {
-    const count = await this.model('Interview').countDocuments({ user: value });
-    return count < 3;
-}, 'A user can book up to 3 interview sessions');
 
 module.exports = mongoose.model('Interview',interviewSchema);
