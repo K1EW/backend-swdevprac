@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // Interview Schema
@@ -14,7 +13,7 @@ const interviewSchema = new mongoose.Schema({
         ref: 'Company',
         required: true
     },
-    from: {
+    date: {
         type: Date,
         required: true,
         validate: {
@@ -26,10 +25,6 @@ const interviewSchema = new mongoose.Schema({
             message: 'Interviews can only be scheduled during May 10th - 13th, 2022'
         }
     },
-    to: {
-        type: Date,
-        required: true
-    }
 });
 
 // Validate that a user can book up to 3 interview sessions

@@ -35,6 +35,11 @@ const userSchema = new mongoose.Schema({
         required: [true, 'Please add a password'],
         minlength: 6,
         select: false
+    },
+    role: {
+        type: String,
+        enum: ["user", "admin"],
+        default: "user"
     }
 });
 
@@ -50,4 +55,6 @@ userSchema.methods.getSignedJwtToken = function() {
 userSchema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
+
+const User = mongoose.model("User", userSchema);
 module.exports = mongoose.model('User',userSchema);
