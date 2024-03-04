@@ -3,19 +3,22 @@ const Company = require("../models/Company");
 
 exports.getInterviews = async (req, res, next) => {
   let query;
+  console.log("reqested by", req.user.role);
   if (req.user.role !== "admin") {
+    // return own interviews if not admin
     query = Interviews.find({ user: req.user.id }).populate({
       path: "user",
       select: "name telephoneNumber email",
     });
   } else {
-    if (req.params.userId) {
-      console.log(req.params.userId);
-      query = Interviews.find({ user: req.params.userId }).populate({
+    if (req.body.user) {
+      // return all interviews of a specific user if admin
+      query = Interviews.find({ user: req.body.user }).populate({
         path: "user",
         select: "name telephoneNumber email",
       });
     } else {
+      // return all interviews of all users if no user is specified
       query = Interviews.find().populate({
         path: "user",
         select: "name telephoneNumber email",
