@@ -11,7 +11,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 const auth = require("./routes/auth");
+const companies = require("./routes/companies");
 app.use("/api/auth", auth);
+app.use("/api/companies", companies);
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
