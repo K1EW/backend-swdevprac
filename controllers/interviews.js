@@ -111,6 +111,10 @@ exports.editInterview = async (req, res, next) => {
             });
         }
 
+        if (req.user.role === "company" && req.user.company.toString() !== interview.company.toString()) {
+            return res.status(400).json({ success: false });
+        }
+
         // ensure owner if not admin
         if (
             req.user.role !== 'admin' &&
@@ -156,6 +160,10 @@ exports.deleteInterview = async (req, res, next) => {
                 success: false,
                 message: `No Interview with the id of ${req.params.id}`
             });
+        }
+
+        if (req.user.role === "company" && req.user.company.toString() !== interview.company.toString()) {
+            return res.status(400).json({ success: false });
         }
 
         // ensure owner if not admin
