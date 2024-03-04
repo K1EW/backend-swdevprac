@@ -1,4 +1,4 @@
-@startuml Book Interview (POST ONE)
+@startuml Post Interview (POST ONE)
 
 header Sample Interview Booking
 footer Page %page% of %lastpage%
