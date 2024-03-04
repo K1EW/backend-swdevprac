@@ -15,14 +15,6 @@ const interviewSchema = new mongoose.Schema({
   date: {
     type: Date,
     required: true,
-    validate: {
-      validator: function (value) {
-        const startDate = new Date('2022-05-10');
-        const endDate = new Date('2022-05-13');
-        return value >= startDate && value <= endDate;
-      },
-      message: 'Interviews can only be scheduled during May 10th - 13th, 2022'
-    }
   }
 });
 
