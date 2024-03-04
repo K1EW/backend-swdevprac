@@ -29,6 +29,26 @@ const companySchema = new mongoose.Schema({
             'Please add a valid 10-digit telephone number'
         ]
     }
+},
+{
+    toJson: { virtuals: true },
+    toObject: { virtuals: true },
+  });
+
+  // Cascade delete appointments when a hospital is deleted
+companySchema.pre('deleteOne',{document:true,query: false}, async function(next) {
+    console.log(`Interviews being remove from company ${this._id}`);
+    await this.model('Interview').deleteMany({company: this._id});
+    next();
 });
+
+// Reverse populate with virtuals
+companySchema.virtual("interviews", {
+    ref: "Interview",
+    localField: "_id",
+    foreignField: "company",
+    justOne: false,
+  });
+
 
 module.exports = mongoose.model('Company', companySchema);
