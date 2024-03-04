@@ -59,7 +59,7 @@ exports.getCompanies = async (req, res, next) => {
 
 exports.getCompany = async (req, res, next) => {
     try {
-        const company = await Company.findById(req.params.id);
+        const company = await Company.findById(req.params.id).populate("interviews");
         if (!company) {
             return res.status(400).json({ success: false });
         }
