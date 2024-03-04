@@ -1,0 +1,29 @@
+@startuml Get One Company
+
+header Companies Management
+footer Page %page% of %lastpage%
+title "Get One Company"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:companies" as routerCompanies
+participant "<<controllers>>\n:companies" as controllersCompanies
+participant "<<model>>\n:Company" as modelCompany
+database "<<MongoDB>>\n:companies" as CompanyDatabase
+
+client->server ++: req.get('/api/companies/:id')
+server->routerCompanies ++: app.use('/api/companies', companiesRouter);
+routerCompanies -> controllersCompanies ++: getCompany(req, res, next)
+' Perform a check to see if the user is an admin or a company
+' If the user is an admin or a company, then get the company
+controllersCompanies-->modelCompany ++: if(req.user.role === 'admin' || (role  === 'company' && req.user.company.toString() === req.params.id))
+modelCompany->CompanyDatabase ++: Company.findById(req.params.id).populate("interviews");
+CompanyDatabase-->modelCompany --: company
+modelCompany-->controllersCompanies --: company
+' else
+controllersCompanies-->modelCompany ++: else (logged in user is not an admin or a company user)
+modelCompany->CompanyDatabase : Company.findById(req.params.id)
+CompanyDatabase-->modelCompany --: company
+modelCompany-->controllersCompanies --: company
+controllersCompanies-->client --: res.status(200).json({ success: true, data: company });
+@enduml
