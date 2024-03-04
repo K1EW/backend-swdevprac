@@ -34,7 +34,10 @@ const userSchema = new mongoose.Schema({
     default: 'user'
   },
   company: {
-    required: false,
+    // required for company role with error message
+    required: [function () {
+      return this.role === 'company';
+    }, 'Please add a company you work for in order to register as a company user'],
     type: mongoose.Schema.ObjectId,
     ref: 'Company'
   },
