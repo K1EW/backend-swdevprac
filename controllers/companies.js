@@ -9,7 +9,7 @@ exports.getCompanies = async (req, res, next) => {
         console.log(reqQuery);
         let queryStr = JSON.stringify(req.query);
         queryStr = queryStr.replace(
-            /\b(gt|gte|lt|lte|in)\b/g ,
+            /\b(gt|gte|lt|lte|in)\b/g,
             (match) => `$${match}`
         );
         query = Company.find(JSON.parse(queryStr))
@@ -54,20 +54,20 @@ exports.getCompanies = async (req, res, next) => {
     } catch (err) {
         res.status(400).json({ success: false });
     }
-    
+
 };
 
 exports.getCompany = async (req, res, next) => {
     try {
         const role = req.user.role;
         let query;
-        if(role === 'admin' || (role  === 'company' && req.user.company.toString() === req.params.id)) {
+        if (role === 'admin' || (role === 'company' && req.user.company.toString() === req.params.id)) {
             query = Company.findById(req.params.id).populate("interviews");
         }
-        else{
+        else {
             query = Company.findById(req.params.id);
         }
-        const company= await query;
+        const company = await query;
         if (!company) {
             return res.status(400).json({ success: false });
         }

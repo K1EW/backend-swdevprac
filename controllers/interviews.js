@@ -1,5 +1,4 @@
 const Interviews = require('../models/Interview');
-const Company = require('../models/Company');
 
 exports.getInterviews = async (req, res, next) => {
     let query;
