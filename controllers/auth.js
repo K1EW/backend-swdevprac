@@ -8,7 +8,8 @@ exports.register = async (req, res, next) => {
       telephoneNumber,
       email,
       role,
-      password
+      password,
+      company
     });
     sendTokenResponse(user, 200, res);
   } catch (err) {

@@ -62,7 +62,7 @@ exports.getCompany = async (req, res, next) => {
         const role = req.user.role;
         let query;
         if(role === 'admin' || (role  === 'company' && req.user.company === req.params.id)) {
-            query = query.findById(req.params.id).populate("interviews");
+            query = Company.findById(req.params.id).populate("interviews");
         }
         else{
             query = query.findById(req.params.id);
