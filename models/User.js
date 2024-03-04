@@ -30,8 +30,13 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'admin'],
+    enum: ['user', 'admin', 'company'],
     default: 'user'
+  },
+  company: {
+    required: false,
+    type: mongoose.Schema.ObjectId,
+    ref: 'Company'
   }
 });
 
