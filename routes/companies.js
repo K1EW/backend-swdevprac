@@ -4,7 +4,7 @@ const { getCompanies, createCompany, getCompany, updateCompany, deleteCompany } 
 
 const router = express.Router();
 
-router.route("/").get(getCompanies).post(createCompany);
-router.route("/:id").get(getCompany).put(updateCompany).delete(deleteCompany);
+router.route("/").get(getCompanies).post(protect, authorize("admin"), createCompany);
+router.route("/:id").get(getCompany).put(protect, authorize("admin"), updateCompany).delete(protect, authorize("admin"), deleteCompany);
 
 module.exports = router;
