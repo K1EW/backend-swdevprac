@@ -1,0 +1,34 @@
+@startuml JobFair System Use Case Diagram
+left to right direction
+actor "User" as user
+rectangle "JobFair System" as VacQSystem {    
+    usecase "Register" as register
+    usecase "Login" as login
+    usecase "View\nCompanies" as viewCom
+    usecase "View\nInterviews" as viewInter
+    usecase "manage\nInterviews" as manageInter
+    usecase "manage\nCompanies" as manageCom
+}
+user -- login
+user -- register
+user -- viewCom
+user -- viewInter
+user -- manageInter
+
+actor "Admin" as admin
+register -- admin
+viewCom -- admin
+viewInter -- admin
+login -- admin
+manageCom -- admin
+manageInter -- admin
+
+actor "Company" as company
+register -- company
+viewCom -- company
+viewInter -- company
+login -- company
+manageCom -- company
+manageInter -- company
+
+@enduml
