@@ -1,0 +1,21 @@
+@startuml Login User
+
+header Authentication Process
+footer Page %page% of %lastpage%
+title "User Login"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<controllers>>\n:authController" as authController
+participant "<<model>>\n:User" as userModel
+database "<<MongoDB>>\n:users" as UserDatabase
+
+client->server ++: req.post('/api/auth/login')
+server->authController ++: login(req, res, next)
+authController->userModel ++: User.findOne({ req.body.email }).select('+password')
+userModel->UserDatabase ++: findUser
+UserDatabase-->userModel --: user
+userModel-->authController --: sendTokenResponse(user, 200, res) <-- if user.matchPassword(req.body.password)
+authController-->client --: res.status(200).cookie(...).json({ success: true, token })
+
+@enduml
