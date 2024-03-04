@@ -15,7 +15,7 @@ client->server ++: req.patch('/api/interviews/:id')
 server->routerInterview ++: app.use('/api/interviews', interviewsRouter);
 routerInterview -> controllersInterviews ++: editInterview(req, res, next)
 
-controllersInterviews->modelInterview ++: Interviews.findByIdAndUpdate(req.params.id, req.body)
+controllersInterviews->modelInterview ++: Interviews.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }))
 modelInterview->InterviewDatabase ++: updateQuery
 InterviewDatabase-->modelInterview --: updatedInterview
 modelInterview-->controllersInterviews --: updatedInterview
