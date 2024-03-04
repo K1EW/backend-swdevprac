@@ -13,11 +13,11 @@ const router = express.Router();
 router
   .route('/')
   .get(getCompanies)
-  .post(protect, authorize('admin'), createCompany);
+  .post(protect, authorize('admin', "company"), createCompany);
 router
   .route('/:id')
   .get(protect,getCompany)
-  .put(protect, authorize('admin'), updateCompany)
-  .delete(protect, authorize('admin'), deleteCompany);
+  .put(protect, authorize('admin', "company"), updateCompany)
+  .delete(protect, authorize('admin', "company"), deleteCompany);
 
 module.exports = router;
