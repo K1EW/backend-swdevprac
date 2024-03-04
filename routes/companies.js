@@ -16,7 +16,7 @@ router
   .post(protect, authorize('admin'), createCompany);
 router
   .route('/:id')
-  .get(getCompany)
+  .get(protect,getCompany)
   .put(protect, authorize('admin'), updateCompany)
   .delete(protect, authorize('admin'), deleteCompany);
 
