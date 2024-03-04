@@ -1,0 +1,23 @@
+@startuml Post Interview (POST ONE)
+
+header Sample Interview Booking
+footer Page %page% of %lastpage%
+title "Book Interview"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:interviews" as routerInterview
+participant "<<controllers>>\n:interviews" as controllersInterviews
+participant "<<model>>\n:Interview" as modelInterview
+database "<<MongoDB>>\n:interviews" as InterviewDatabase
+
+client->server ++: req.post('/api/interviews')
+server->routerInterview ++: app.use('/api/interviews', interviewsRouter);
+routerInterview -> controllersInterviews ++: bookInterview(req, res, next)
+
+controllersInterviews->modelInterview ++: Interviews.create(req.body);
+modelInterview->InterviewDatabase ++: query
+InterviewDatabase-->modelInterview --: new_interview
+modelInterview-->controllersInterviews --: new_interview
+controllersInterviews-->client --: res.status(200).json({ success: true, data: new_interview });
+@enduml
