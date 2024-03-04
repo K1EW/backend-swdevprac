@@ -61,6 +61,7 @@ exports.getCompanies = async (req, res, next) => {
             res.status(400).json({ success: false });
           }
     };
+}
     
     exports.getCompany = async (req, res, next) => {
         try {
