@@ -34,7 +34,10 @@ const userSchema = new mongoose.Schema({
     default: 'user'
   },
   company: {
-    required: false,
+    // required for company role
+    required: function () {
+      return this.role === 'company';
+    },
     type: mongoose.Schema.ObjectId,
     ref: 'Company'
   },
