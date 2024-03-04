@@ -12,8 +12,10 @@ app.use(cookieParser());
 
 const auth = require("./routes/auth");
 const companies = require("./routes/companies");
+const interviews = require("./routes/interviews");
 app.use("/api/auth", auth);
 app.use("/api/companies", companies);
+app.use("/api/interviews", interviews);
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => {
