@@ -1,0 +1,28 @@
+@startuml Booking Interview (GET ALL)
+
+header Sample Interview Booking
+footer Page %page% of %lastpage%
+title "Manage Interview (GET ALL)"
+
+participant "Client" as client
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:interviews" as routerInterview
+participant "<<controllers>>\n:interviews" as controllersInterviews
+participant "<<model>>\n:Interview" as modelInterview
+database "<<MongoDB>>\n:interviews" as InterviewDatabase
+
+client->server ++: req.get('/api/interviews')
+server->routerInterview ++: app.use('/api/interviews', interviewsRouter);
+routerInterview -> controllersInterviews ++: getInterviews(req, res, next)
+controllersInterviews->modelInterview ++: findBasedOnUserRole(req.user)
+' findBasedOnUserRole call
+modelInterview --> InterviewDatabase ++: user.role != 'admin'
+InterviewDatabase --> modelInterview --: Interviews.find({ user: req.user.id })
+modelInterview --> InterviewDatabase ++: user.role == 'admin'
+InterviewDatabase --> modelInterview --: Interviews.find()
+modelInterview --> InterviewDatabase ++: user.role == 'admin' && req.params.user
+InterviewDatabase --> modelInterview --: Interviews.find({ user: req.params.user })
+' redirect back
+modelInterview --> controllersInterviews --: interviews
+controllersInterviews->client --: res.status(200).json(interviews)
+@enduml
