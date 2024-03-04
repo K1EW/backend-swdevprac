@@ -1,0 +1,92 @@
+@startuml
+left to right direction
+package "JobFair"{
+    class "<<Application>>\nJobFair" as VacQService{}
+
+    class "<<Resource>>\nCompanies" as ResourceHospitals{
+        <<GET>> +getCompanies():Company
+        <<POST>> +createCompanies():Company
+    }
+
+    class "<<Resource>>\nInterviews" as ITV{
+        <<GET>> +getInterviews():Interview 
+        <<POST>> +bookInterview():Interview
+    }
+    
+    class "<<Resource>>\n:id" as ITV_ID{
+        <<GET>> +getInterviews():Interview
+        <<PUT>> +editInterview(): Interview
+        <<DELETE>> +deleteInterview(): void
+    }
+
+
+    class "<<Resource>>\nCompanies" as ResourceHospital {
+        <<GET>> +getCompany(): Company
+        <<PUT>> +updateCompany(): Company
+        <<DELETE>> +deleteCompany(): void
+    }
+
+    class "<<Representation>>\nCompany" as RepresentationHospital {
+        -name
+        -address
+        -website
+        -description
+        -telephoneNumber
+    }
+    
+    class "<<Representation>>\nInterview" as ITVModel {
+        -User
+        -company
+        -date
+    }
+
+    class "<<Resource>>\nregister" as Register{
+        <<POST>> +register():Token
+    }
+
+
+    class "<<Resource>>\nlogin" as Login{
+        <<POST>> +login():Token
+    }
+
+    class "<<Resource>>\nme" as Me{
+        <<GET>> +getMe():User
+    }
+
+    class "<<Resource>>\nlogout" as Logout{
+        <<GET>> +logout():void
+    }
+
+
+    class "<<Representation>>\nUser" as User {
+        -name
+        -telephoneNumber
+        -email
+        -role
+        -company
+    }
+
+    class "<<Representation>>\nCompany" as RepresentationHospital {
+        -name
+        -address
+        -website
+        -description
+        -telephoneNumber
+    }
+}
+
+VacQService ..> ResourceHospitals:"/api/companies\n<<Path>>"
+VacQService ..> Register:"/api/auth/register\n<<Path>>"
+VacQService ..> ITV:"/api/interviews\n<<Path>>"
+ITV ..> ITV_ID : "/{:id}\n<<Path>>"
+ITV_ID ..> ITVModel:"<<use>>"
+Register ..> User: "<<use>>"
+Login ..> User: User"<<use>>"
+VacQService ..> Login:"/api/auth/login\n<<Path>>"
+VacQService ..> Me:"/api/auth/me\n<<Path>>"
+Me ..> User: "<<use>>"
+VacQService ..> Logout:"/api/auth/logout\n<<Path>>"
+ResourceHospitals ..> ResourceHospital: "/{:id}\n<<Path>>"
+ResourceHospital ..> RepresentationHospital: "<<use>>"
+
+@enduml
