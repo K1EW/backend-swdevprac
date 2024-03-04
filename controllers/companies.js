@@ -87,6 +87,10 @@ exports.createCompany = async (req, res, next) => {
 
 exports.updateCompany = async (req, res, next) => {
     try {
+        const user = req.user;
+        if (user.role === "company" && user.company.toString() !== req.params.id) {
+            return res.status(400).json({ success: false });
+        }
         const company = await Company.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true
@@ -104,6 +108,10 @@ exports.updateCompany = async (req, res, next) => {
 
 exports.deleteCompany = async (req, res, next) => {
     try {
+        const user = req.user;
+        if (user.role === "company" && user.company.toString() !== req.params.id) {
+            return res.status(400).json({ success: false });
+        }
         const company = await Company.findById(req.params.id);
 
         if (!company) {
