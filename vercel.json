@@ -14,7 +14,7 @@
     }
   ],
   "functions": {
-    "controller/**/*": {
+    "controllers/**/*": {
       "maxDuration": 30
     }
   }
