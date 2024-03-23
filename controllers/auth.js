@@ -3,7 +3,7 @@ const User = require('../models/User');
 exports.register = async (req, res, next) => {
     try {
         const { name, telephoneNumber, email, role, password, company } = req.body;
-        const user = await User.create({
+        await User.create({
             name,
             telephoneNumber,
             email,
@@ -12,12 +12,11 @@ exports.register = async (req, res, next) => {
             company
         });
     } catch (err) {
-        res.status(400).json({ success: false });
-        console.log(err.stack);
+        res.status(400).json({ success: false, error: err.message });
     }
 };
 
-exports.login = async (req, res, next) => {
+/* exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
@@ -88,4 +87,4 @@ exports.logout = async (req, res, next) => {
         success: true,
         data: {}
     });
-};
+}; */

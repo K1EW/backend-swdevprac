@@ -3,6 +3,9 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 // User Schema
+const mongoose = require('mongoose');
+
+// Define User Schema
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -34,13 +37,23 @@ const userSchema = new mongoose.Schema({
         default: 'user'
     },
     company: {
-        // required for company role with error message
-        required: [function() {
-            return this.role === 'company';
-        }, 'Please add a company you work for in order to register as a company user'],
         type: mongoose.Schema.ObjectId,
-        ref: 'Company'
+        ref: 'Company',
+        unique: true,
+        sparse: true // Allows multiple null values for company, but ensures uniqueness among non-null values
     },
+});
+
+// Middleware to enforce unique constraint if role is "company"
+userSchema.pre('save', async function(next) {
+    if (this.role === 'company' && this.isNew) {
+        const existingUser = await mongoose.model('User').findOne({ company: this.company });
+        if (existingUser) {
+            const error = new Error('Company must be unique among users with role "company"');
+            next(error);
+        }
+    }
+    next();
 });
 
 module.exports = mongoose.model('User', userSchema);
