@@ -9,16 +9,14 @@ const {
 
 const router = express.Router({ mergeParams: true });
 
-const { protect, authorize } = require('../middleware/auth');
-
 router
   .route('/')
-  .get(protect, getInterviews)
-  .post(protect, authorize('admin', 'user'), bookInterview);
+  .get(getInterviews)
+  .post(bookInterview);
 router
   .route('/:id')
-  .get(protect, getInterview)
-  .put(protect, authorize('admin', 'user'), editInterview)
-  .delete(protect, authorize('admin', 'user'), deleteInterview);
+  .get(getInterview)
+  .put(editInterview)
+  .delete(deleteInterview);
 
 module.exports = router;

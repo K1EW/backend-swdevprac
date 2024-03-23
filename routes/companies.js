@@ -1,5 +1,4 @@
 const express = require('express');
-const { protect, authorize } = require('../middleware/auth');
 const {
   getCompanies,
   createCompany,
@@ -13,11 +12,11 @@ const router = express.Router();
 router
   .route('/')
   .get(getCompanies)
-  .post(protect, authorize('admin', "company"), createCompany);
+  .post(createCompany);
 router
   .route('/:id')
-  .get(protect,getCompany)
-  .put(protect, authorize('admin', "company"), updateCompany)
-  .delete(protect, authorize('admin', "company"), deleteCompany);
+  .get(getCompany)
+  .put(updateCompany)
+  .delete(deleteCompany);
 
 module.exports = router;
