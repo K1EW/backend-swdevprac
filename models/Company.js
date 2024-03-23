@@ -17,6 +17,10 @@ const companySchema = new mongoose.Schema({
             'Please add a valid website URL'
         ]
     },
+    image: {
+        type: String,
+        require: [true, "Please add a company image"]
+    },
     description: {
         type: String,
         required: [true, "Please add a company description"]
