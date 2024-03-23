@@ -1,7 +1,4 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
-
-exports.protect = async (req, res, next) => {
+const protect = async (req, res, next) => {
     let token;
 
     if (
@@ -11,32 +8,13 @@ exports.protect = async (req, res, next) => {
         token = req.headers.authorization.split(' ')[1];
     }
 
-    if (!token) {
+    if (!token || token !== process.env.API_KEY) {
         return res
             .status(401)
             .json({ success: false, message: 'Not authorize to access this route' });
     }
 
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = await User.findById(decoded.id);
-        next();
-    } catch (err) {
-        console.log(err.stack);
-        return res
-            .status(401)
-            .json({ success: false, message: 'Not authorize to access this route' });
-    }
+    next();
 };
 
-exports.authorize = (...roles) => {
-    return (req, res, next) => {
-        if (!roles.includes(req.user.role)) {
-            return res.status(403).json({
-                success: false,
-                message: `User role ${req.user.role} is not authorized to access this route`
-            });
-        }
-        next();
-    };
-};
+module.exports = protect;

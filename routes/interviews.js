@@ -11,12 +11,12 @@ const router = express.Router({ mergeParams: true });
 
 router
   .route('/')
-  .get(getInterviews)
-  .post(bookInterview);
+  .get(protect, getInterviews)
+  .post(protect, bookInterview);
 router
   .route('/:id')
-  .get(getInterview)
-  .put(editInterview)
-  .delete(deleteInterview);
+  .get(protect, getInterview)
+  .put(protect, editInterview)
+  .delete(protect, deleteInterview);
 
 module.exports = router;

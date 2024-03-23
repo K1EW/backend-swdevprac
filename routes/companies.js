@@ -8,15 +8,16 @@ const {
 } = require('../controllers/companies');
 
 const router = express.Router();
+const protect = require('../middleware/auth');
 
 router
   .route('/')
   .get(getCompanies)
-  .post(createCompany);
+  .post(protect, createCompany);
 router
   .route('/:id')
-  .get(getCompany)
-  .put(updateCompany)
-  .delete(deleteCompany);
+  .get(protect, getCompany)
+  .put(protect, updateCompany)
+  .delete(protect, deleteCompany);
 
 module.exports = router;
