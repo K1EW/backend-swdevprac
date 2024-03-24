@@ -11,7 +11,14 @@ exports.register = async (req, res, next) => {
             password,
             company
         });
-        res.status(200).json({ success: true, user: user });
+        const response_data = {
+            name: user.name,
+            telephoneNumber: user.telephoneNumber,
+            email: user.email,
+            role: user.role,
+            company: user.company
+        };
+        res.status(200).json({ success: true, user: response_data });
     } catch (err) {
         res.status(400).json({ success: false, error: err.message });
     }
@@ -41,7 +48,14 @@ exports.login = async (req, res, next) => {
                 .status(401)
                 .json({ success: false, msg: 'Invalid credentials' });
         }
-        res.status(200).json({ success: true, user: user });
+        const response_data = {
+            name: user.name,
+            telephoneNumber: user.telephoneNumber,
+            email: user.email,
+            role: user.role,
+            company: user.company
+        };
+        res.status(200).json({ success: true, user: response_data });
     } catch (err) {
         return res
             .status(401)
