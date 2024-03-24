@@ -17,7 +17,7 @@ exports.register = async (req, res, next) => {
     }
 };
 
-/* exports.login = async (req, res, next) => {
+exports.login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
@@ -34,15 +34,14 @@ exports.register = async (req, res, next) => {
                 .status(400)
                 .json({ sucess: false, msg: 'Invalid credentials' });
         }
-
-        const isMatch = await user.matchPassword(password);
-
-        if (!isMatch) {
-            return res
-                .status(401)
-                .json({ success: false, msg: 'Invalid credentials' });
-        }
-        sendTokenResponse(user, 200, res);
+        // const isMatch = await user.matchPassword(password);
+        //
+        // if (!isMatch) {
+        //     return res
+        //         .status(401)
+        //         .json({ success: false, msg: 'Invalid credentials' });
+        // }
+        res.status(200).json({ success: true, user: user });
     } catch (err) {
         return res
             .status(401)
@@ -53,7 +52,7 @@ exports.register = async (req, res, next) => {
     }
 };
 
-const sendTokenResponse = (user, statusCode, res) => {
+/* const sendTokenResponse = (user, statusCode, res) => {
     const token = user.getSignedJwtToken();
 
     const options = {
