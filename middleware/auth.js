@@ -17,4 +17,4 @@ const protect = (req, res, next) => {
     next();
 };
 
-module.exports = protect;
+export default protect;
