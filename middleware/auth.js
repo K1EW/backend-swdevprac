@@ -1,4 +1,4 @@
-const protect = (req, res, next) => {
+exports.protect = async (req, res, next) => {
     let token;
 
     if (
@@ -8,7 +8,7 @@ const protect = (req, res, next) => {
         token = req.headers.authorization.split(' ')[1];
     }
 
-    if (!token || token !== process.env.API_KEY) {
+    if (!token) {
         return res
             .status(401)
             .json({ success: false, message: 'Not authorize to access this route' });
@@ -16,5 +16,3 @@ const protect = (req, res, next) => {
 
     next();
 };
-
-export default protect;
