@@ -1,4 +1,4 @@
-const protect = async (req, res, next) => {
+const protect = (req, res, next) => {
     let token;
 
     if (
