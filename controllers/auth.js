@@ -34,20 +34,20 @@ exports.login = async (req, res, next) => {
                 .status(400)
                 .json({ sucess: false, msg: 'Invalid credentials' });
         }
-
-        const isMatch = await user.matchPassword(password);
-        if (!isMatch) {
-            return res
-                .status(401)
-                .json({ success: false, error: 'Invalid credentials'});
-        }
+        // const isMatch = await user.matchPassword(password);
+        //
+        // if (!isMatch) {
+        //     return res
+        //         .status(401)
+        //         .json({ success: false, msg: 'Invalid credentials' });
+        // }
         res.status(200).json({ success: true, user: user });
     } catch (err) {
         return res
             .status(401)
             .json({
                 success: false,
-                error: err.message
+                msg: 'Cannot convert email or password to string'
             });
     }
 };
