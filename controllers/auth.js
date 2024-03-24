@@ -34,13 +34,13 @@ exports.login = async (req, res, next) => {
                 .status(400)
                 .json({ sucess: false, msg: 'Invalid credentials' });
         }
-        // const isMatch = await user.matchPassword(password);
-        //
-        // if (!isMatch) {
-        //     return res
-        //         .status(401)
-        //         .json({ success: false, msg: 'Invalid credentials' });
-        // }
+        const isMatch = await user.matchPassword(password);
+
+        if (!isMatch) {
+            return res
+                .status(401)
+                .json({ success: false, msg: 'Invalid credentials' });
+        }
         res.status(200).json({ success: true, user: user });
     } catch (err) {
         return res
