@@ -78,11 +78,15 @@ exports.getCompany = async (req, res, next) => {
 };
 
 exports.createCompany = async (req, res, next) => {
-    const company = await Company.create(req.body);
-    res.status(201).json({
-        success: true,
-        data: company
-    });
+    try {
+        const company = await Company.create(req.body);
+        res.status(201).json({
+            success: true,
+            data: company
+        });
+    } catch (error) {
+        res.status(400).json({ success: false, error });
+    }
 };
 
 exports.updateCompany = async (req, res, next) => {
