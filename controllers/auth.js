@@ -49,6 +49,7 @@ exports.login = async (req, res, next) => {
                 .json({ success: false, msg: 'Invalid credentials' });
         }
         const response_data = {
+            id: user._id,
             name: user.name,
             telephoneNumber: user.telephoneNumber,
             email: user.email,
