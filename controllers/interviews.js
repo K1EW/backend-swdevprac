@@ -70,8 +70,7 @@ exports.getInterview = async (req, res, next) => {
 
 exports.bookInterview = async (req, res, next) => {
     try {
-        req.body.user = req.user.id;
-        const existedInterviews = await Interviews.find({ user: req.user.id });
+        const existedInterviews = await Interviews.find({ user: req.body.user });
         const startDate = new Date("2022-05-10");
         const endDate = new Date("2022-05-13");
         const bookDate = new Date(req.body.date);
@@ -79,7 +78,7 @@ exports.bookInterview = async (req, res, next) => {
         if (existedInterviews.length >= 3) {
             return res.status(400).json({
                 success: false,
-                message: `The user with ID ${req.user.id} has already book 3 Interviews`
+                message: `The user with ID ${req.body.user} has already book 3 Interviews`
             });
         } else if (bookDate <= startDate || bookDate >= endDate) {
             return res.status(400).json({
