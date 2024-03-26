@@ -40,7 +40,8 @@ exports.bookInterview = async (req, res, next) => {
         const endDate = new Date("2022-05-13T23:59:59.999Z");
         const bookDate = new Date(req.body.date);
 
-        bookDate.setDate(bookDate.getDate());
+        bookDate.setDate(bookDate.getDate() + 1);
+        req.body.date = bookDate.toISOString();
 
         if (existedInterviews.length >= 3) {
             return res.status(400).json({
