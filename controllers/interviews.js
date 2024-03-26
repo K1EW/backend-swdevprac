@@ -36,8 +36,8 @@ exports.getInterview = async (req, res, next) => {
 exports.bookInterview = async (req, res, next) => {
     try {
         const existedInterviews = await Interviews.find({ user: req.body.user });
-        const startDate = new Date("2022-05-10");
-        const endDate = new Date("2022-05-13");
+        const startDate = new Date("2022-05-10T00:00:00.000Z");
+        const endDate = new Date("2022-05-13T23:59:59.999Z");
         const bookDate = new Date(req.body.date);
 
         if (existedInterviews.length >= 3) {
