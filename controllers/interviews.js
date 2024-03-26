@@ -76,7 +76,7 @@ exports.bookInterview = async (req, res, next) => {
         const endDate = new Date("2022-05-13");
         const bookDate = new Date(req.body.date);
 
-        if (existedInterviews.length >= 3 && req.user.role != 'admin') {
+        if (existedInterviews.length >= 3) {
             return res.status(400).json({
                 success: false,
                 message: `The user with ID ${req.user.id} has already book 3 Interviews`
