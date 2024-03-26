@@ -67,6 +67,19 @@ exports.login = async (req, res, next) => {
     }
 };
 
+exports.getUser = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return res.status(400).json({ success: false, error: 'User not found' });
+        }
+        res.status(200).json({ success: true, data: user });
+    }
+    catch (error) {
+        res.status(400).json({ success: false, error });
+    }
+};
+
 // const sendTokenResponse = (user, statusCode, res) => {
 //     const token = user.getSignedJwtToken();
 //
