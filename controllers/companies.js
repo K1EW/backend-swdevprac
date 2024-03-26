@@ -62,11 +62,11 @@ exports.getCompany = async (req, res, next) => {
         query = Company.findById(req.params.id).populate("interviews");
         const company = await query;
         if (!company) {
-            return res.status(400).json({ success: false });
+            return res.status(400).json({ success: false, error: "Company not found"});
         }
         res.status(200).json({ success: true, data: company });
     } catch (error) {
-        res.status(400).json({ success: false });
+        res.status(400).json({ success: false, error });
     }
 };
 
