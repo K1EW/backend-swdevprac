@@ -59,14 +59,7 @@ exports.getCompanies = async (req, res, next) => {
 
 exports.getCompany = async (req, res, next) => {
     try {
-        const role = req.user.role;
-        let query;
-        if (role === 'admin' || (role === 'company' && req.user.company.toString() === req.params.id)) {
-            query = Company.findById(req.params.id).populate("interviews");
-        }
-        else {
-            query = Company.findById(req.params.id);
-        }
+        query = Company.findById(req.params.id).populate("interviews");
         const company = await query;
         if (!company) {
             return res.status(400).json({ success: false });
