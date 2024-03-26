@@ -23,7 +23,8 @@ exports.getInterview = async (req, res, next) => {
                 message: `No Interviews for the user with the id of ${user_id}`
             });
         }
-        res.staus(200).json({
+        console.log(interviews);
+        res.status(200).json({
             success: true,
             count: interviews.length,
             data: interviews
